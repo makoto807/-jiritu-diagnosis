@@ -137,23 +137,6 @@
       text-align: left;
     }
 
-    .retry-btn {
-      background: linear-gradient(90deg, #667eea, #764ba2);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 14px 32px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      transition: opacity 0.2s;
-    }
-
-    .retry-btn:hover {
-      opacity: 0.85;
-    }
-
     /* Definition section */
     .definition {
       background: #f7fafc;
@@ -191,6 +174,58 @@
       font-size: 0.83rem;
       color: #718096;
       line-height: 1.7;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .retry-btn {
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity 0.2s;
+    }
+
+    .retry-btn:hover {
+      opacity: 0.85;
+    }
+
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .share-btn:hover {
+      opacity: 0.8;
+    }
+
+    .share-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
+      flex-shrink: 0;
     }
 
     .hidden {
@@ -237,7 +272,13 @@
         </div>
       </div>
 
-      <button class="retry-btn" onclick="restart()">もう一度診断する</button>
+      <div class="btn-row">
+        <button class="retry-btn" onclick="restart()">もう一度診断する</button>
+        <a id="share-btn" class="share-btn" href="#" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.261 5.636 5.903-5.636zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          Xでシェア
+        </a>
+      </div>
     </div>
   </div>
 
@@ -336,6 +377,12 @@
       document.getElementById("result-label").textContent = r.label;
       document.getElementById("result-desc").textContent = r.desc;
       document.getElementById("progress-bar").style.width = "100%";
+
+      // X share button
+      const shareText = `他律・自律 簡易診断をやってみました。\n\n結果：${r.icon} ${r.type}\n\n仕事の時間・判断・納得感から傾向がわかる3問の診断です。`;
+      const shareUrl = encodeURIComponent(location.href);
+      const tweetUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${shareUrl}`;
+      document.getElementById("share-btn").href = tweetUrl;
     }
 
     function restart() {
